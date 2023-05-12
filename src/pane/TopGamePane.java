@@ -13,7 +13,7 @@ public class TopGamePane extends HBox {
 		this.setPrefWidth(800);
 		this.setPrefHeight(200);
 		this.setPadding(new Insets(15));
-		BackButton btn1 = new CreateButton.createBackButton();
+		BackButton btn1 = new BackButton();
 		this.getChildren().add(btn1);
 		Text shotCount = new Text("0");
 		this.getChildren().add(shotCount);

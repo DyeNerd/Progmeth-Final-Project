@@ -1,7 +1,7 @@
 package component;
 
 public abstract class Obstacle {
-	private int bounciness;
+	private int bounciness = 0;
 	private int x;
 	private int y;
 	public Obstacle(int x, int y) {
@@ -10,7 +10,6 @@ public abstract class Obstacle {
 	}
 	
 	public abstract int bounce();
-	public abstract int getBounciness();	
 	
 	public void setX(int x) {
 		this.x = x;
@@ -18,5 +17,17 @@ public abstract class Obstacle {
 	
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public int getX() {
+		return this.x;
+	}
+	
+	public int getY() {
+		return this.y;
+	}
+	
+	public int getBounciness() {
+		return this.bounciness;
 	}
 }

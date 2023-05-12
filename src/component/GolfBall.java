@@ -7,6 +7,7 @@ public class GolfBall extends Circle {
 	private int x;
 	private int y;
 	private final int radius = 5;
+	private int speed;
 	
 	public GolfBall(int x, int y) {
 		this.setRadius(radius);
@@ -29,6 +30,14 @@ public class GolfBall extends Circle {
 	
 	public int getY() {
 		return this.y;
+	}
+	
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+	
+	public int getSpeed() {
+		return this.speed;
 	}
 	
 }
