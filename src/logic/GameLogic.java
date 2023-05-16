@@ -38,9 +38,6 @@ public class GameLogic {
 	}
 	public void logicUpdate(){
 		golfBall.update();
-//		System.out.println("golf update");
-//		System.out.println(golfBall.collideWith(tree));
-//		System.out.println(Math.hypot(tree.getX()-golfBall.getX(), tree.getY()-golfBall.getY())+ " " + (tree.radius + golfBall.radius));
 		for(Obstacle e : obstacle)
 		{
 			if(golfBall.collideWith(e) && !e.isDestroyed()) {

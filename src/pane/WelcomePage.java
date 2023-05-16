@@ -39,34 +39,7 @@ public class WelcomePage extends VBox {
         startButton.setOnAction(event -> {
             // Handle the start button click event
             // (e.g. start the game)
-        	if (myMain.getGameScene() != null) {
-        		stage.setScene(myMain.getGameScene());
-        	} else {
-        		GameLogic logic = new GameLogic();
-            	GolfCourse golfCourse = new GolfCourse();
-            	rootPane = new RootPane(golfCourse, main);
-            	Scene gameScene = new Scene(rootPane, 800, 640);
-            	myMain.setGameScene(gameScene);
-            	stage.setScene(gameScene);
-        		stage.setTitle("MiniGolf");
-            	
-            	stage.setResizable(false);
-            	
-            	golfCourse.requestFocus();
-            	stage.show();
-            	
-            	AnimationTimer animation = new AnimationTimer() {
-        		public void handle(long now) {
-    				golfCourse.paintComponent();
-    				logic.logicUpdate();
-    				RenderableHolder.getInstance().update();
-    				InputUtility.updateInputState();
-        		}
-        	};
-        	animation.start();
-        	}
-        	
-        	
+        	stage.setScene(myMain.getGameScene());        	
         });
         exitButton.setOnAction(event -> Platform.exit());
 
