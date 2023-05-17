@@ -58,6 +58,30 @@ public class GolfBall extends CollidableEntity {
 		System.out.println(""+ dx + " " + dy + " "+ Math.atan2(dy	, dx) );
 		return Math.atan2(dy, dx);
 	}
+	
+	public void reverseXVelocity() {
+        double currentAngle = angle;
+        double currentXVelocity = speed * Math.cos(currentAngle);
+        double currentYVelocity = speed * Math.sin(currentAngle);
+
+        double newXVelocity = -currentXVelocity;
+        double newYVelocity = currentYVelocity;
+
+        speed = Math.sqrt(newXVelocity * newXVelocity + newYVelocity * newYVelocity);
+        angle = Math.toDegrees(Math.atan2(newYVelocity, newXVelocity));
+    }
+
+    public void reverseYVelocity() {
+        double currentAngle = angle;
+        double currentXVelocity = speed * Math.cos(currentAngle);
+        double currentYVelocity = speed * Math.sin(currentAngle);
+
+        double newXVelocity = currentXVelocity;
+        double newYVelocity = -currentYVelocity;
+
+        speed = Math.sqrt(newXVelocity * newXVelocity + newYVelocity * newYVelocity);
+        angle = Math.toDegrees(Math.atan2(newYVelocity, newXVelocity));
+    }
 
 	public int getPowerPercent() {
 		return powerPercent;
@@ -98,6 +122,7 @@ public class GolfBall extends CollidableEntity {
 		this.angle += Math.PI ;
 //		setSpeed(maxSpeed);
 	}
+	
 
 	@Override
 	public void draw(GraphicsContext gc) {

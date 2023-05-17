@@ -6,8 +6,10 @@ import java.util.List;
 import component.Entity;
 import component.Field;
 import component.GolfBall;
+import component.Hole;
 import component.Obstacle;
 import component.Tree;
+import component.Wall;
 import sharedObject.RenderableHolder;
 
 public class GameLogic {
@@ -15,6 +17,8 @@ public class GameLogic {
 	private List<Obstacle> obstacle ; 
 	private GolfBall golfBall; 
 	private Tree tree ,tree1 ;
+	private Hole hole;
+	private Wall wall1;
 	
 	public GameLogic() {
 		Field field = new Field();
@@ -24,9 +28,13 @@ public class GameLogic {
 		golfBall = new GolfBall(600,400);
 		tree = new Tree(200,400);
 		tree1 = new Tree(400,400);
+		hole = new Hole(100, 200);
+		wall1 = new Wall(350, 250, 20, 70);
 		addNewObject(golfBall);
 		addNewObject(tree);
 		addNewObject(tree1);
+		addNewObject(hole);
+		addNewObject(wall1);
 	}
 	protected void addNewObject(Entity entity){
 		gameObjectContainer.add(entity);
@@ -44,6 +52,9 @@ public class GameLogic {
 				System.out.println("hit");
 				e.onCollision(golfBall);
 			}
+		}
+		if (hole.isBallInHole(golfBall) && golfBall.getSpeed() == 0) {
+			System.out.println("GameEnded");
 		}
 	}
 }
