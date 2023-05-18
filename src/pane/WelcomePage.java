@@ -9,9 +9,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import main.Main;
 
 public class WelcomePage extends StackPane {
@@ -32,6 +35,11 @@ public class WelcomePage extends StackPane {
         backgroundImageView.fitWidthProperty().bind(this.widthProperty());
         backgroundImageView.fitHeightProperty().bind(this.heightProperty());
         getChildren().add(backgroundImageView);
+        
+        String soundFile = getClass().getResource("/clicksound.mp3").toString();
+        Media buttonClickMedia = new Media(soundFile);
+        MediaPlayer buttonClickSound;
+        buttonClickSound = new MediaPlayer(buttonClickMedia);
 
 		this.myMain = main;
 		Label titleLabel = new Label("My Mini Golf Game");
@@ -44,10 +52,16 @@ public class WelcomePage extends StackPane {
 		// Create a button to exit the game
 		exitButton = new Button("Exit Game");
 		exitButton.getStyleClass().add("button-exit");
-		exitButton.setOnAction(event -> Platform.exit());
+		exitButton.setOnAction(event -> {
+			buttonClickSound.seek(Duration.ZERO);
+		    buttonClickSound.play();
+			Platform.exit();
+			});
 
 		startButton.setOnAction(event -> {
 			// Handle the start button click event
+			buttonClickSound.seek(Duration.ZERO);
+		    buttonClickSound.play();
 			myMain.getGameScreen().start();
 		});
 

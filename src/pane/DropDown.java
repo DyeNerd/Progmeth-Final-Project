@@ -4,6 +4,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import main.Main;
 
 public class DropDown extends HBox{
@@ -13,12 +16,19 @@ public class DropDown extends HBox{
 		choiceBox.setValue("Option 1");
 		choiceBox.getStyleClass().add("choice-box");
 		main.setSelectedMap("Option 1");
+		
+		String soundFile = getClass().getResource("/clicksound.mp3").toString();
+        Media buttonClickMedia = new Media(soundFile);
+        MediaPlayer buttonClickSound;
+        buttonClickSound = new MediaPlayer(buttonClickMedia);
 
 		// Create a Button
 		Button dropDownButton = new Button("Select");
 		dropDownButton.getStyleClass().add("select-button");
 		// Event handler for the button click
 		dropDownButton.setOnAction(event -> {
+			buttonClickSound.seek(Duration.ZERO);
+		    buttonClickSound.play();
 			String selectedOption = choiceBox.getValue();
 			System.out.println("Selected Option: " + selectedOption);
 			if (selectedOption != null) {
