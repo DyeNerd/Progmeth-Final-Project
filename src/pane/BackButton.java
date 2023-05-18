@@ -4,6 +4,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import logic.GameLogic;
 import main.Main;
 
 public class BackButton extends StackPane {
@@ -13,6 +14,7 @@ public class BackButton extends StackPane {
 		t1.setFill(Color.WHITE);
 		this.setOnMouseClicked(event -> {
 			main.getStage().setScene(main.getWelcomePageScene());
+			main.getGameScreen().reset();
 		});
 		this.getChildren().addAll(c1, t1);
 	}

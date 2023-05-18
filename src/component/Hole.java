@@ -33,9 +33,7 @@ public class Hole extends Obstacle {
         double ballCenterX = ball.getX();
         double ballCenterY = ball.getY();
         double ballRadius = 10;
-
         double distance = Math.sqrt(Math.pow(ballCenterX - circle.getCenterX(), 2) + Math.pow(ballCenterY - circle.getCenterY(), 2));
-        
         return distance <= (radius - ballRadius);
     }
 
@@ -49,6 +47,6 @@ public class Hole extends Obstacle {
 	@Override
 	public void onCollision(GolfBall golfBall) {
 		// TODO Auto-generated method stub
-		golfBall.setSpeed(golfBall.getSpeed()*0.3);
+		golfBall.setSpeed(golfBall.getSpeed()*0.1);
 	}
 }

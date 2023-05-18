@@ -1,69 +1,56 @@
 package main;
 
-import input.InputUtility;
-import javafx.animation.AnimationTimer;
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import logic.GameLogic;
-import pane.GolfCourse;
-import pane.RootPane;
+import pane.GameScreen;
 import pane.WelcomePage;
-import sharedObject.RenderableHolder;
 
 public class Main extends Application {
+	private String selectedMap;
 	private Scene welcomePageScene;
-	private Scene gameScene;
 	private Stage stage;
+	private GameScreen gameScreen;
+
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
-	
-	@Override
-    public void start(Stage stage) {
-		this.stage = stage;
-    	WelcomePage welcomePage = new WelcomePage(stage, this);
-    	welcomePageScene = new Scene(welcomePage, 800, 640);
-    	
-    	GameLogic logic = new GameLogic();
-    	GolfCourse golfCourse = new GolfCourse();
-    	RootPane rootPane = new RootPane(golfCourse, this);
-    	gameScene = new Scene(rootPane, 800, 640);
-       	golfCourse.requestFocus();
 
-    	
-    	AnimationTimer animation = new AnimationTimer() {
-    		public void handle(long now) {
-    			golfCourse.paintComponent();
-    			logic.logicUpdate();
-    			RenderableHolder.getInstance().update();
-    			InputUtility.updateInputState();
-    		}
-    	};
-    	animation.start();
-    	
+	@Override
+	public void start(Stage stage) throws IOException {
+		this.stage = stage;
+		WelcomePage welcomePage = new WelcomePage(stage, this);
+		welcomePageScene = new Scene(welcomePage, 800, 640);
+		welcomePageScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+		gameScreen = new GameScreen(this, stage);
 		stage.setScene(welcomePageScene);
-		stage.setTitle("MiniGolf");    	 	
-    	stage.setResizable(false);
-    	stage.show();
-    	
-    }
-	
+		stage.setTitle("MiniGolf");
+		stage.setResizable(false);
+		stage.show();
+	}
+
+	public GameScreen getGameScreen() {
+		return gameScreen;
+	}
+
+	public String getSelectedMap() {
+		return selectedMap;
+	}
+
+	public void setSelectedMap(String selectedMap) {
+		this.selectedMap = selectedMap;
+	}
+
 	public Scene getWelcomePageScene() {
 		return this.welcomePageScene;
 	}
-	
-	public Scene getGameScene() {
-		return this.gameScene;
-	}
-	
-	public void setGameScene(Scene gameScene) {
-		this.gameScene = gameScene;
-	}
-	
+
 	public Stage getStage() {
 		return this.stage;
 	}
 
-		
 }

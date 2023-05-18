@@ -47,8 +47,10 @@ public class Field implements IRenderable {
 //				gc.drawImage(croppedImage, x * 64, y * 64);
 //			}
 //		}
-		gc.setFill(Color.GREENYELLOW);
-		gc.fillRect(0,0, 800, 585);
+//		gc.setFill(Color.GREENYELLOW);
+//		gc.fillRect(0,0, 800, 585);
+		gc.drawImage(RenderableHolder.mapSprite, 0, 0);
+
 	}
 
 	@Override
