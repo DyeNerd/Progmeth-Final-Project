@@ -1,9 +1,12 @@
 /* style.css */
 .text-title {
-    -fx-font-family: "Brush Script MT";
     -fx-font-size: 60px;
+    -fx-font-family: "Brush Script MT", cursive;
+    -fx-effect: dropshadow(one-pass-box, black, 10, 0, 0, 0);
     -fx-font-weight: bold;
     -fx-text-fill: white;
+    -fx-stroke: black;
+    -fx-stroke-width: 1px;
 }
 
 .button-start, .button-exit, .choice-box, .select-button {
