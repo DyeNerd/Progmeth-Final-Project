@@ -2,29 +2,27 @@ package pane;
 
 import input.InputUtility;
 import javafx.animation.AnimationTimer;
-import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import logic.GameLogic;
-import main.Main;
 import sharedObject.RenderableHolder;
 
-public class GameScreen {
+public class GameScreen extends VBox {
 	private GameLogic gameLogic;
 	private GolfCourse golfCourse;
 	private TopGamePane topGamePane;
-	private Scene gameScene;
-	private Stage stage;
-	private Main main;
+	private RootPane rootPane;
 	private AnimationTimer animation;
 
-	public GameScreen(Main main, Stage stage) {
-		this.main = main;
-		this.stage = stage;
+	public GameScreen(RootPane rootPane) {
+		this.setPrefWidth(800);
+		this.setPrefHeight(640);
+		this.rootPane = rootPane;
 		golfCourse = new GolfCourse();
-		gameLogic = new GameLogic(main);
-		gameScene = new Scene(createPane(golfCourse, main), 800, 640);
-		gameScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+		gameLogic = new GameLogic(rootPane);
+
+		VBox gamePane = createPane(golfCourse);
+		this.getChildren().add(gamePane);
+		this.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 		animation = new AnimationTimer() {
 			public void handle(long now) {
 				gameLogic.logicUpdate();
@@ -36,9 +34,9 @@ public class GameScreen {
 		};
 	}
 
-	public VBox createPane(GolfCourse golfCourse, Main main) {
+	public VBox createPane(GolfCourse golfCourse) {
 		VBox gamePane = new VBox();
-		topGamePane = new TopGamePane(main);
+		topGamePane = new TopGamePane(rootPane);
 		topGamePane.setMaxShot(gameLogic.getMaxShot());
 		topGamePane.setShotParameter("0");
 		gamePane.getChildren().addAll(topGamePane, golfCourse);
@@ -47,14 +45,16 @@ public class GameScreen {
 
 	public void start() {
 		animation.start();
-		stage.setScene(gameScene);
+		rootPane.setPane(this);
 	}
 
 	public void reset() {
 		animation.stop();
 		RenderableHolder.getInstance().getEntities().clear();
-		gameLogic = new GameLogic(main);
+		gameLogic = new GameLogic(rootPane);
 		golfCourse = new GolfCourse();
-		gameScene = new Scene(createPane(golfCourse, main), 800, 640);
+		VBox gamePane = createPane(golfCourse);
+		this.getChildren().clear();
+		this.getChildren().add(gamePane);
 	}
 }

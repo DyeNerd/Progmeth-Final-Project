@@ -7,43 +7,40 @@ import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-import main.Main;
 
-public class DropDown extends HBox{
-	public DropDown(Main main) {
+public class DropDown extends HBox {
+	public DropDown(RootPane rootPane) {
 		ChoiceBox<String> choiceBox = new ChoiceBox<>();
-		choiceBox.getItems().addAll("Option 1", "Option 2", "Option 3");
-		choiceBox.setValue("Option 1");
-		choiceBox.getStyleClass().add("choice-box");
-		main.setSelectedMap("Option 1");
-		
+		choiceBox.getItems().addAll("Map 1", "Map 2", "Map 3");
+		choiceBox.setValue("Map 1");
+		rootPane.setSelectedMap("Map 1");
+
 		String soundFile = getClass().getResource("/clicksound.mp3").toString();
-        Media buttonClickMedia = new Media(soundFile);
-        MediaPlayer buttonClickSound;
-        buttonClickSound = new MediaPlayer(buttonClickMedia);
+		Media buttonClickMedia = new Media(soundFile);
+		MediaPlayer buttonClickSound;
+		buttonClickSound = new MediaPlayer(buttonClickMedia);
 
 		// Create a Button
 		Button dropDownButton = new Button("Select");
 		dropDownButton.getStyleClass().add("select-button");
+
 		// Event handler for the button click
 		dropDownButton.setOnAction(event -> {
 			buttonClickSound.seek(Duration.ZERO);
-		    buttonClickSound.play();
+			buttonClickSound.play();
 			String selectedOption = choiceBox.getValue();
 			System.out.println("Selected Option: " + selectedOption);
 			if (selectedOption != null) {
-				main.setSelectedMap(selectedOption);
-				main.getGameScreen().reset();
-			} else {
-				// Play error sound I guess
+				rootPane.setSelectedMap(selectedOption);
+				rootPane.getGameScreen().reset();
 			}
 		});
 
-		this.getChildren().addAll(choiceBox,dropDownButton);
+		this.getChildren().addAll(choiceBox, dropDownButton);
 		this.setSpacing(10);
 		this.setAlignment(Pos.CENTER);
 	}
-	
+
 	public HBox getDropDown() {
 		return this;
 	}

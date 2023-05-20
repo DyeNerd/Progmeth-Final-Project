@@ -9,76 +9,114 @@ import component.GolfBall;
 import component.Hole;
 import component.Map;
 import component.Obstacle;
-import component.Rock;
-import component.Tree;
-import component.Wall;
-import main.Main;
+import javafx.scene.Scene;
+import pane.GameEndScreen;
+import pane.RootPane;
 import sharedObject.RenderableHolder;
 
 public class GameLogic {
-//	private static GameLogic instance = null;
 	private List<Entity> gameObjectContainer;
+	private List<Obstacle> obstacle;
 	private int shotCounter;
 	private int maxShot;
-
-	private List<Obstacle> obstacle;
+	private boolean isWin;
 	private GolfBall golfBall;
-	private Tree tree, tree1;
 	private Hole hole;
-	private Rock rock;
-	private Wall wall1;
+	private RootPane rootPane;
 	private final Map map = new Map();
 
-	public GameLogic(Main main) {
-		this.maxShot = 8;
+	public GameLogic(RootPane rootPane) {
+		this.rootPane = rootPane;
 		Field field = new Field();
+		isWin = true;
 		shotCounter = 0;
 		RenderableHolder.getInstance().add(field);
+
 		this.gameObjectContainer = new ArrayList<Entity>();
 		this.obstacle = new ArrayList<Obstacle>();
-		selectMap(main.getSelectedMap());
+
+		selectMap(rootPane.getSelectedMap());
+	}
+
+	public void checkWinning() {
+		if (shotCounter > maxShot) {
+			isWin = false;
+		} else {
+			isWin = true;
+		}
 	}
 
 	public void selectMap(String selectedMap) {
-		if (selectedMap.equals("Option 1")) {
+		if (selectedMap.equals("Map 1")) {
 			ArrayList<Entity> map1 = map.buildMap1();
 			golfBall = new GolfBall(600, 400, this);
-			hole = new Hole(100, 200);
+			hole = new Hole(50, 50);
 			addNewObject(golfBall);
 			addNewObject(hole);
-			this.maxShot = 5;
+			this.maxShot = 6;
 			for (Entity e : map1) {
 				addNewObject(e);
 			}
 
-		} else if (selectedMap.equals("Option 2")) {
-			golfBall = new GolfBall(600, 400, this);
-			tree = new Tree(200, 400);
-			tree1 = new Tree(400, 400);
-			hole = new Hole(100, 200);
-			wall1 = new Wall(350, 250, 20, 70);
-			rock = new Rock(300, 300);
+		} else if (selectedMap.equals("Map 2")) {
+			ArrayList<Entity> map2 = map.buildMap2();
+			golfBall = new GolfBall(180, 180, this);
+			hole = new Hole(500, 300);
 			addNewObject(golfBall);
-			addNewObject(rock);
-			addNewObject(tree);
-			addNewObject(tree1);
 			addNewObject(hole);
 			this.maxShot = 8;
-
+			for (Entity e : map2) {
+				addNewObject(e);
+			}
 		} else {
-			golfBall = new GolfBall(600, 400, this);
-			tree = new Tree(200, 400);
-			tree1 = new Tree(400, 400);
-			hole = new Hole(100, 200);
-			wall1 = new Wall(350, 250, 20, 70);
-			rock = new Rock(300, 300);
+			golfBall = new GolfBall(100, 100, this);
+			hole = new Hole(500, 300);
 			addNewObject(golfBall);
-			addNewObject(rock);
-			addNewObject(tree);
 			addNewObject(hole);
-			addNewObject(wall1);
 			this.maxShot = 4;
 		}
+	}
+
+	protected void addNewObject(Entity entity) {
+		gameObjectContainer.add(entity);
+		RenderableHolder.getInstance().add(entity);
+		if (entity instanceof Obstacle) {
+			obstacle.add((Obstacle) entity);
+		}
+	}
+
+	public void logicUpdate() {
+		shotCounter = golfBall.getShotCount();
+		golfBall.update();
+		checkWinning();
+		for (Obstacle e : obstacle) {
+			if (golfBall.collideWith(e) && !e.isDestroyed()) {
+				e.onCollision(golfBall);
+			}
+		}
+		if (hole.isBallInHole(golfBall) && golfBall.getSpeed() == 0) {
+			showEndingScene();
+			RenderableHolder.puttSound.play();
+		}
+		if (!isWin) {
+			showEndingScene();
+		}
+
+	}
+
+	public void showEndingScene() {
+		this.rootPane.getGameScreen().reset();
+		GameEndScreen endingScreen = new GameEndScreen(rootPane, isWin);
+		Scene endingScene = new Scene(endingScreen, 800, 600);
+		rootPane.setPane(endingScreen);
+	}
+
+	public boolean isWin() {
+		return isWin;
+	}
+
+	public void setWin(boolean isWin) {
+		this.isWin = isWin;
 	}
 
 	public List<Entity> getGameObjectContainer() {
@@ -103,28 +141,6 @@ public class GameLogic {
 
 	public void setObstacle(List<Obstacle> obstacle) {
 		this.obstacle = obstacle;
-	}
-
-	protected void addNewObject(Entity entity) {
-		gameObjectContainer.add(entity);
-		RenderableHolder.getInstance().add(entity);
-		if (entity instanceof Obstacle) {
-			obstacle.add((Obstacle) entity);
-		}
-	}
-
-	public void logicUpdate() {
-		shotCounter = golfBall.getShotCount();
-		golfBall.update();
-		for (Obstacle e : obstacle) {
-			if (golfBall.collideWith(e) && !e.isDestroyed()) {
-				System.out.println("hit");
-				e.onCollision(golfBall);
-			}
-		}
-		if (hole.isBallInHole(golfBall) && golfBall.getSpeed() == 0) {
-			System.out.println("GameEnded");
-		}
 	}
 
 	public int getShotCounter() {

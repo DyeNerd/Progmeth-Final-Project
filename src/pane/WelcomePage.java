@@ -5,78 +5,58 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-import main.Main;
+import sharedObject.RenderableHolder;
 
 public class WelcomePage extends StackPane {
 	private Button startButton;
 	private Button exitButton;
 	private DropDown dropDown;
-	private Main myMain;
+	private RootPane rootPane;
 
-	public WelcomePage(Stage stage, Main main) {
-		// Create a label to display the title of the game
-		// Load the background image
-        Image backgroundImage = new Image(getClass().getResourceAsStream("/bgi2.jpg"));
+	public WelcomePage(RootPane rootPane) {
+		this.rootPane = rootPane;
+		this.setPrefWidth(800);
+		this.setPrefHeight(640);
+		ImageView backgroundImageView = new ImageView(RenderableHolder.backgroundImage);
 
-        // Create an ImageView to hold the background image
-        ImageView backgroundImageView = new ImageView(backgroundImage);
+		getChildren().add(backgroundImageView);
 
-        // Set the size of the ImageView to match the welcomePage
-        backgroundImageView.fitWidthProperty().bind(this.widthProperty());
-        backgroundImageView.fitHeightProperty().bind(this.heightProperty());
-        getChildren().add(backgroundImageView);
-        
-        String soundFile = getClass().getResource("/clicksound.mp3").toString();
-        Media buttonClickMedia = new Media(soundFile);
-        MediaPlayer buttonClickSound;
-        buttonClickSound = new MediaPlayer(buttonClickMedia);
-
-		this.myMain = main;
 		Label titleLabel = new Label("My Mini Golf Game");
 		titleLabel.getStyleClass().add("text-title");
+		this.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
 		// Create a button to start the game
 		startButton = new Button("Start Game");
 		startButton.getStyleClass().add("button-start");
+		startButton.setOnAction(event -> {
+			RenderableHolder.clickSound.play();
+			rootPane.setPane(rootPane.getGameScreen());
+			rootPane.getGameScreen().start();
+		});
 
 		// Create a button to exit the game
 		exitButton = new Button("Exit Game");
 		exitButton.getStyleClass().add("button-exit");
 		exitButton.setOnAction(event -> {
-			buttonClickSound.seek(Duration.ZERO);
-		    buttonClickSound.play();
+			RenderableHolder.clickSound.play();
 			Platform.exit();
-			});
-
-		startButton.setOnAction(event -> {
-			// Handle the start button click event
-			buttonClickSound.seek(Duration.ZERO);
-		    buttonClickSound.play();
-			myMain.getGameScreen().start();
 		});
 
-		dropDown = new DropDown(main);
+		dropDown = new DropDown(rootPane);
 
 		// Add the components to the pane
 		setPadding(new Insets(40));
 		setAlignment(Pos.CENTER);
 		VBox buttonsBox = new VBox(10);
 		buttonsBox.setSpacing(40);
-        buttonsBox.getChildren().addAll(titleLabel, startButton, exitButton, dropDown);
-        buttonsBox.setAlignment(Pos.CENTER);
+		buttonsBox.getChildren().addAll(titleLabel, startButton, exitButton, dropDown);
+		buttonsBox.setAlignment(Pos.CENTER);
 
-        // Add the VBox to the StackPane
-        getChildren().add(buttonsBox);
+		// Add the VBox to the StackPane
+		getChildren().add(buttonsBox);
 	}
 
 	// Getter methods for the start and exit buttons

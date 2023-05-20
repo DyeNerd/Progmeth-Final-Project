@@ -1,56 +1,27 @@
 package main;
 
-import java.io.IOException;
-
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import pane.GameScreen;
-import pane.WelcomePage;
+import pane.RootPane;
+import sharedObject.RenderableHolder;
 
 public class Main extends Application {
-	private String selectedMap;
-	private Scene welcomePageScene;
-	private Stage stage;
-	private GameScreen gameScreen;
 
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
 
 	@Override
-	public void start(Stage stage) throws IOException {
-		this.stage = stage;
-		WelcomePage welcomePage = new WelcomePage(stage, this);
-		welcomePageScene = new Scene(welcomePage, 800, 640);
-		welcomePageScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
-		gameScreen = new GameScreen(this, stage);
-		stage.setScene(welcomePageScene);
+	public void start(Stage stage) {
+		RootPane root = new RootPane();
+		Scene scene = new Scene(root, 800, 640);
+		stage.setScene(scene);
 		stage.setTitle("MiniGolf");
 		stage.setResizable(false);
+		stage.getIcons().add(RenderableHolder.golfBall);
 		stage.show();
-	}
-
-	public GameScreen getGameScreen() {
-		return gameScreen;
-	}
-
-	public String getSelectedMap() {
-		return selectedMap;
-	}
-
-	public void setSelectedMap(String selectedMap) {
-		this.selectedMap = selectedMap;
-	}
-
-	public Scene getWelcomePageScene() {
-		return this.welcomePageScene;
-	}
-
-	public Stage getStage() {
-		return this.stage;
+		RenderableHolder.playBackgroundMusic();
 	}
 
 }
