@@ -69,11 +69,15 @@ public class GameLogic {
 				addNewObject(e);
 			}
 		} else {
-			golfBall = new GolfBall(100, 100, this);
-			hole = new Hole(500, 300);
+			ArrayList<Entity> map3 = map.buildMap3();
+			golfBall = new GolfBall(400, 25, this);
+			hole = new Hole(400, 520);
 			addNewObject(golfBall);
 			addNewObject(hole);
-			this.maxShot = 4;
+			this.maxShot = 400;
+			for (Entity e: map3) {
+				addNewObject(e);
+			}
 		}
 	}
 

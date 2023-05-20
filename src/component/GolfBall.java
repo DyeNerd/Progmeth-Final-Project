@@ -107,6 +107,14 @@ public class GolfBall extends CollidableEntity {
 		speed = Math.sqrt(newXVelocity * newXVelocity + newYVelocity * newYVelocity);
 		angle = Math.toDegrees(Math.atan2(newYVelocity, newXVelocity));
 	}
+	
+	public double getVelocityX() {
+		return speed * Math.cos(angle);
+	}
+	
+	public double getVelocityY() {
+		return speed * Math.sin(angle);
+	}
 
 	public int getPowerPercent() {
 		return powerPercent;

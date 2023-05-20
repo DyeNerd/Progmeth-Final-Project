@@ -131,4 +131,40 @@ public class Map {
 		objectContainer.add(rock10);
 		return (ArrayList<Entity>) objectContainer;
 	}
+	
+	public ArrayList<Entity> buildMap3() {
+		Wall w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15;
+		w1 = new Wall(0,50,355,20);
+		w2 = new Wall(445,50,375,20);
+		w3 = new Wall(0,50,20,640);
+		w4 = new Wall(780,50,20,640);
+		w5 = new Wall(0,550,800,20);
+		w6 = new Wall(120, 150, 540, 20);
+		w7 = new Wall(120, 350, 540, 20);
+		w8 = new Wall(0, 250, 355, 20);
+		w9 = new Wall(335, 150, 20, 100);
+		w10 = new Wall(660, 150, 20, 120);
+		w11 = new Wall(497, 250, 20, 100);
+		w12 = new Wall(120, 350, 20, 110);
+		w13 = new Wall(640, 350, 20, 190);
+		w14 = new Wall(335, 460, 20, 90);
+		w15 = new Wall(335, 460, 162, 20);
+		
+		objectContainer.add(w1);
+		objectContainer.add(w2);
+		objectContainer.add(w3);
+		objectContainer.add(w4);
+		objectContainer.add(w5);
+		objectContainer.add(w6);
+		objectContainer.add(w7);
+		objectContainer.add(w8);
+		objectContainer.add(w9);
+		objectContainer.add(w10);
+		objectContainer.add(w11);
+		objectContainer.add(w12);
+		objectContainer.add(w13);
+		objectContainer.add(w14);
+		objectContainer.add(w15);
+		return (ArrayList<Entity>) objectContainer;
+	}
 }
